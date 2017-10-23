@@ -8,11 +8,11 @@ RUN apt-get update && apt-get upgrade
 RUN apt-get install -y ssmtp mailutils
 
 #we link sendmail to ssmtp
-ls -la /usr/sbin/sendmail
+RUN ls -la /usr/sbin/sendmail
 
 #we add our conf files
 ADD assets/ssmtp.conf /etc/ssmtp/ssmtp.conf
 ADD assets/install.sh ~/install.sh
 
 #Run
-CMD ~/install.sh
+CMD ["/install.sh"]
