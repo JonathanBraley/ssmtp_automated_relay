@@ -10,29 +10,31 @@ then
 	sed -i -e "s/RELAY_SERVER/"${RELAY_SERVER}"/g" $file
 	sed -i -e "s/RELAY_HOSTNAME/"${RELAY_HOSTNAME}"/g" $file
 	
-	if [ -z ${IDENTITY} ]
+	if [ "${IDENTITY}" != "" ]
 	then
 		sed -i -e "s/IDENTITY/"${IDENTITY}"/g" $file
 
-		sed -i '/root=/s/^#//' file
+		sed -i '/root=/s/^#//' $file
 	fi
 
-	if [ -z ${RELAY_DOMAIN} ]
+	if [ "${RELAY_DOMAIN}" != "" ]
 	then
 		sed -i -e "s/RELAY_DOMAIN/"${RELAY_DOMAIN}"/g" $file
 
-		sed -i '/rewriteDomain=/s/^#//' file
+		sed -i '/rewriteDomain=/s/^#//' $file
 	fi
 
-	if [ -z ${FROM_OVERRIDE} ]
+	if [ "${FROM_OVERRIDE}" != "" ]
 	then
-		sed -i '/FromLineOverride=/s/^#//' file
+		sed -i '/FromLineOverride=/s/^#//' $file
 	fi
 
-	if [ -z ${RELAY_TLS} ]
+	if [ "${RELAY_TLS}" != "" ]
 	then
-		sed -i '/UseSTARTTLS=/s/^#//' file
+		sed -i '/UseSTARTTLS=/s/^#//' $file
 	fi
 fi
 
-exec "$@"
+echo ${REVALIASES} >> /etc/ssmtp/revaliases
+
+tail -f /dev/null

@@ -1,18 +1,16 @@
 FROM debian:stretch-slim
 MAINTAINER Jonathan-b
 
-#Check if image is up to date.
-RUN apt-get update && apt-get upgrade
-
-#let's install ssmtp and mailutils
-RUN apt-get install -y ssmtp mailutils
+#let's install ssmtp, mailutils, supervisor
+RUN apt-get update && apt-get install -y ssmtp mailutils
 
 #we link sendmail to ssmtp
 RUN ls -la /usr/sbin/sendmail
 
 #we add our conf files
-ADD assets/ssmtp.conf /etc/ssmtp/ssmtp.conf
-ADD assets/install.sh ~/install.sh
+COPY assets/ssmtp.conf /etc/ssmtp/
+COPY assets/install.sh /
+RUN chmod +x /install.sh
 
 #Run
-CMD ["/install.sh"]
+ENTRYPOINT ["/install.sh"]
